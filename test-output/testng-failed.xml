@@ -5,7 +5,7 @@
     <classes>
       <class name="codenboxautomationllab.AppTest">
         <methods>
-          <include name="HideAndShowTest"/>
+          <include name="IframeTest"/>
           <include name="mySetup"/>
         </methods>
       </class> <!-- codenboxautomationllab.AppTest -->

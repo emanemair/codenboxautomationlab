@@ -11,10 +11,12 @@ import java.util.Random;
 import java.util.Set;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
@@ -155,7 +157,7 @@ public class AppTest {
 		
 	}
 	
-	@Test (priority = 9 , enabled =true )
+	@Test (priority = 9 , enabled =false  )
 	public void HideTest() throws InterruptedException {
 		
 		WebElement HideButton = driver.findElement(By.id("hide-textbox")); 
@@ -167,7 +169,7 @@ public class AppTest {
 	
 	}
 	
-	@Test(priority = 10 , enabled = true)
+	@Test(priority = 10 , enabled = false)
 	public void ShowTest() throws InterruptedException {
 		
 		WebElement ShowButton = driver.findElement(By.id("show-textbox"));
@@ -178,4 +180,106 @@ public class AppTest {
 		
 		
 	}
+	
+	@Test (priority= 11 , enabled = false)
+	public void DisableTest() throws InterruptedException {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("window.scrollTo(0,1800)"); 
+		WebElement DisabledButton  = driver.findElement(By.id("disabled-button"));
+		DisabledButton.click(); 
+		Thread.sleep(2000);
+		WebElement EnabledInputExample = driver.findElement(By.id("enabled-example-input")); 
+		Assert.assertEquals(EnabledInputExample.isEnabled(), false);
+		
+	
+	}
+	
+	@Test (priority = 12 , enabled = false )
+	public void EnableTest() throws InterruptedException {
+		JavascriptExecutor js = (JavascriptExecutor) driver; 
+		
+		js.executeScript("window.scrollTo(0,1800)"); 
+		WebElement EnableButton = driver.findElement(By.id("enabled-button"));
+		EnableButton.click();
+		Thread.sleep(1000);
+		WebElement EnabledInputExample = driver.findElement(By.id("enabled-example-input")); 
+		Assert.assertEquals(EnabledInputExample.isEnabled(), true);
+		EnabledInputExample.sendKeys("passed");
+		
+		
+	}
+	
+	@Test (priority = 13 , enabled = false)
+	public void MouseHover() throws InterruptedException {
+		
+		JavascriptExecutor js = (JavascriptExecutor) driver; 
+		js.executeScript("window.scrollTo(0,1900)"); 
+		
+		WebElement MouseHover = driver.findElement(By.id("mousehover")); 
+		Actions action = new Actions(driver);
+		
+		action.moveToElement(MouseHover).perform(); 
+		Thread.sleep(2000);
+		WebElement TopButton = driver.findElement(By.linkText("Top")); 
+		TopButton.click();
+		
+		js.executeScript("window.scrollTo(0,1900)"); 
+		
+		action.moveToElement(MouseHover).perform();
+		Thread.sleep(2000) ; 
+		WebElement ReloadButton = driver.findElement(By.linkText("Reload")); 
+		ReloadButton.click(); 
+		
+	}
+	
+	@Test (priority = 14 , enabled = false)
+	public void BookingCalenderTest() throws InterruptedException {
+		
+		JavascriptExecutor js = (JavascriptExecutor) driver ; 
+		js.executeScript("window.scrollTo(0,1900)"); 
+		
+		WebElement CalenderLink = driver.findElement(By.partialLinkText("Booking"));
+		CalenderLink.click(); 
+		
+		Set<String> TabHandlers = driver.getWindowHandles(); 
+		List<String> TabList = new ArrayList<>(TabHandlers); 
+		
+		driver.switchTo().window(TabList.get(1)); 
+		Thread.sleep(2000);
+		WebElement TheTable = driver.findElement(By.cssSelector(".datepick.wpbc_calendar")); 
+		
+		List<WebElement> TableData = TheTable.findElements(By.tagName("td")); 
+		
+		ArrayList<String> Dates = new ArrayList<>();
+		for (int i = 0 ; i < TableData.size() ; i++ ) {
+			
+			Dates.add(TableData.get(i).getText());  
+		}
+		
+		for (int i = 0 ; i < Dates.size() ; i++ ) {
+			System.out.println(Dates.get(i));
+		}
+		
+		
+ 	}
+	
+	@Test(priority = 15 ,enabled = false )
+	public void IframeTest () 
+	{
+		
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("window.scrollTo(0,2400)"); 
+		driver.switchTo().frame("courses-iframe"); 
+		WebElement BurgerMenu = driver.findElement(By.cssSelector(".ct-mobile-meta-item.btn-nav-mobile.open-menu")); 
+		BurgerMenu.click();
+	}
+	
+	@Test (priority = 16 , enabled = true)
+	public void DownloadApkFile() {
+		
+		WebElement ApkFile = driver.findElement(By.linkText("Download Apk files")); 
+		ApkFile.click();
+		
+	}
+	
 }
